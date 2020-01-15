@@ -12,7 +12,6 @@ const createInputWindow = () => {
         height: 75,
         frame: false,
         resizable: false,
-        transparent: true,
         webPreferences: {
             nodeIntegration: true
         }

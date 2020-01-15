@@ -1,8 +1,7 @@
-html, body {
+body {
     background: #1e1e1e;
     margin: 0;
     font-family: Inter;
-    border-radius: 20px;
 }
 
 form {
