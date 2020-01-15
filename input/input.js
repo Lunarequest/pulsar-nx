@@ -1,4 +1,6 @@
 const {exec} = require("child_process");
+const electron = require("electron");
+const win = electron.remote.getCurrentWindow();
 
 const form = document.querySelector("form");
 const input = form.querySelector("input");
@@ -17,7 +19,9 @@ form.onsubmit = e => {
 
     if (input.value.startsWith(">")) {
         const command = input.value.replace(">", "");
-        const child = exec(command);
-        console.log("done");
+        if (!command.length);
+        exec(command);
     }
+
+    win.close();
 };

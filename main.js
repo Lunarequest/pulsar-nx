@@ -1,16 +1,19 @@
 const electron = require("electron");
 
+var inputWindow;
 const createInputWindow = () => {
-    const win = new electron.BrowserWindow({
+    inputWindow = new electron.BrowserWindow({
         width: 800,
         height: 75,
         frame: false,
+        resizable: false,
         webPreferences: {
             nodeIntegration: true
         }
     });
-    win.loadFile("input/index.html");
-    win.on("blur", () => {
+    inputWindow.loadFile("input/index.html");
+
+    inputWindow.on("blur", () => {
         //win.close();
     });
 }
