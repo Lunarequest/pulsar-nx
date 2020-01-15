@@ -1,0 +1,16 @@
+{
+  "name": "pulsar",
+  "version": "0.0.1",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alleshq/pulsar.git"
+  },
+  "homepage": "https://alles.cx/pulsar",
+  "devDependencies": {
+    "electron": "^7.1.9"
+  }
+}
