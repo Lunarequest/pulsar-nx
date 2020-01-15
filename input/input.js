@@ -21,6 +21,8 @@ form.onsubmit = e => {
         const command = input.value.replace(">", "");
         if (!command.length);
         exec(command);
+    } else {
+        electron.shell.openExternal(`https://google.com/search?q=${encodeURIComponent(input.value)}`);
     }
 
     win.close();
