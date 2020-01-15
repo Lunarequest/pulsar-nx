@@ -10,8 +10,10 @@ export default () => {
     const [value, setValue] = useState("");
     const inputElem = createRef();
 
+    //Form Input
     const formInput = () => {};
-    
+
+    //Form Submit
     const formSubmit = e => {
         e.preventDefault();
     
@@ -29,8 +31,17 @@ export default () => {
     };
 
     useEffect(() => {
+        //Focus Input
         inputElem.current.focus();
     }, []);
+
+    useEffect(() => {
+        //Change Window Height
+        const h = document.querySelector("#root").getBoundingClientRect().height;
+        const w = win.getSize()[0];
+        win.setMinimumSize(w, h);
+        win.setSize(w, h);
+    });
 
     return (
         <>
