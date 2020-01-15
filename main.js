@@ -1,4 +1,5 @@
 const electron = require("electron");
+const isDev = require("electron-is-dev");
 
 var inputWindow;
 const createInputWindow = () => {
@@ -16,7 +17,7 @@ const createInputWindow = () => {
             nodeIntegration: true
         }
     });
-    inputWindow.loadFile("input/index.html");
+    inputWindow.loadURL(isDev ? "http://localhost:3000" : `file://${__dirname}/../build/index.html`);
 
     //Close on blur
     inputWindow.on("blur", () => {
