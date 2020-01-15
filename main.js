@@ -10,9 +10,10 @@ const createInputWindow = () => {
     //Create Window
     inputWindow = new electron.BrowserWindow({
         width: 800,
-        height: 75,
+        height: 300,
         frame: false,
         resizable: false,
+        alwaysOnTop: true,
         webPreferences: {
             nodeIntegration: true
         }

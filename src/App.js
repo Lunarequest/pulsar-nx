@@ -15,12 +15,14 @@ export default () => {
     const formSubmit = e => {
         e.preventDefault();
     
-        if (value.startsWith(">")) {
-            const command = value.replace(">", "");
-            if (!command.length);
-            exec(command);
-        } else {
-            electron.shell.openExternal(`https://google.com/search?q=${encodeURIComponent(value)}`);
+        if (value.trim()) {
+            if (value.startsWith(">")) {
+                const command = value.replace(">", "");
+                if (!command.length);
+                exec(command);
+            } else {
+                electron.shell.openExternal(`https://google.com/search?q=${encodeURIComponent(value)}`);
+            }
         }
     
         win.close();
@@ -37,8 +39,12 @@ export default () => {
                     ref={inputElem}
                     className={value.startsWith(">") ? "terminal" : ""}
                     onChange={e => {setValue(e.target.value); formInput();}}
+                    placeholder="What's up?"
                 />
             </form>
+            {value.startsWith(">") ? (
+                <p className="banner">Danger! You are running a terminal command. This could damage your computer. Make sure you know what you're doing!</p>
+            ) : <></>}
         </>
     );
 };

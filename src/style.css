@@ -16,10 +16,17 @@ input {
     outline: none;
     color: #d0d0d0;
     font-size: 40px;
-    padding: 20px;
+    padding: 12px 20px;
     font-family: Inter;
 }
 
 input.terminal {
-    color: green;
+    color: #608b4e;
+}
+
+p.banner {
+    padding: 10px 20px;
+    margin: 0;
+    background: #111111;
+    color: white;
 }
