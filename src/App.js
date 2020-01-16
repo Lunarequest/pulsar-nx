@@ -46,6 +46,25 @@ export default () => {
         win.close();
     };
 
+    //Key Press
+    document.onkeydown = e => {
+        if (e.key === "Escape") {
+            win.close();
+        } else if (e.key === "ArrowUp") {
+            if (selection <= 0) {
+                setSelection(results.length - 1);
+            } else {
+                setSelection(selection - 1);
+            }
+        } else if (e.key === "ArrowDown") {
+            if (selection >= results.length - 1) {
+                setSelection(0);
+            } else {
+                setSelection(selection + 1);
+            }
+        }
+    };
+
     //Do Result
     const doResult = result => {
         console.log(result);
@@ -87,7 +106,7 @@ export default () => {
                         }}
                         onClick={() => {
                             doResult(result);
-                            win.close();
+                            //win.close();
                         }}
                     >
                         <p>{result.text}</p>
