@@ -8,10 +8,25 @@ const win = electron.remote.getCurrentWindow();
 
 export default () => {
     const [value, setValue] = useState("");
+    const [results, setResults] = useState([]);
+    const [selection, setSelection] = useState(0);
     const inputElem = createRef();
 
     //Form Input
-    const formInput = () => {};
+    const formInput = val => {
+        setValue(val);
+        if (!val) return setResults([]);
+        if (val.startsWith(">")) return setResults([]);
+        setResults([
+            {
+                text: `It is ${new Date().toISOString()}`
+            },
+            {
+                text: "AllesHQ on Twitter",
+                url: "https://twitter.com/alleshq"
+            }
+        ]);
+    };
 
     //Form Submit
     const formSubmit = e => {
@@ -23,11 +38,17 @@ export default () => {
                 if (!command.length);
                 exec(command);
             } else {
-                electron.shell.openExternal(`https://google.com/search?q=${encodeURIComponent(value)}`);
+                const result = results[selection];
+                if (result) doResult(result);
             }
         }
     
         win.close();
+    };
+
+    //Do Result
+    const doResult = result => {
+        console.log(result);
     };
 
     useEffect(() => {
@@ -49,13 +70,30 @@ export default () => {
                 <input
                     ref={inputElem}
                     className={value.startsWith(">") ? "terminal" : ""}
-                    onChange={e => {setValue(e.target.value); formInput();}}
+                    onChange={e => formInput(e.target.value)}
                     placeholder="What's up?"
                 />
             </form>
             {value.startsWith(">") ? (
                 <p className="banner">Danger! You are running a terminal command. This could damage your computer. Make sure you know what you're doing!</p>
             ) : <></>}
+            {results.map((result, i) => {
+                return (
+                    <div
+                        className={`resultItem ${selection === i ? "selected" : ""}`}
+                        key={i}
+                        onMouseOver={() => {
+                            setSelection(i);
+                        }}
+                        onClick={() => {
+                            doResult(result);
+                            win.close();
+                        }}
+                    >
+                        <p>{result.text}</p>
+                    </div>
+                );
+            })}
         </>
     );
 };
