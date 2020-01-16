@@ -19,11 +19,20 @@ export default () => {
         if (val.startsWith(">")) return setResults([]);
         setResults([
             {
-                text: `It is ${new Date().toISOString()}`
+                text: "Alles, the Everything Platform"
             },
             {
                 text: "AllesHQ on Twitter",
                 url: "https://twitter.com/alleshq"
+            },
+            {
+                text: "AllesHQ on GitHub"
+            },
+            {
+                text: "Alles, the startup that picked up over 100 reservations on the first day | TechCrunch"
+            },
+            {
+                text: "Alles on Twitter: \"Only 80 followers left until round 2 of reservations! ▰▰▰▰▰▰▱▱▱▱ 60%\""
             }
         ]);
     };
@@ -67,7 +76,9 @@ export default () => {
 
     //Do Result
     const doResult = result => {
-        console.log(result);
+        if (result.url) {
+            electron.shell.openExternal(result.url);
+        }
     };
 
     useEffect(() => {
@@ -106,7 +117,7 @@ export default () => {
                         }}
                         onClick={() => {
                             doResult(result);
-                            //win.close();
+                            win.close();
                         }}
                     >
                         <p>{result.text}</p>
