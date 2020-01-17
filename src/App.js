@@ -9,14 +9,20 @@ const win = electron.remote.getCurrentWindow();
 export default () => {
     const [value, setValue] = useState("");
     const [results, setResults] = useState([]);
+    const [answer, setAnswer] = useState();
     const [selection, setSelection] = useState(0);
     const inputElem = createRef();
 
     //Form Input
     const formInput = val => {
         setValue(val);
-        if (!val) return setResults([]);
-        if (val.startsWith(">")) return setResults([]);
+        setResults([]);
+        setAnswer();
+        if (!val.trim()) return;
+
+        if (val.startsWith(">")) return;
+        if (val.toLowerCase().includes("time")) setAnswer("It is 20:10");
+
         setResults([
             {
                 text: "Alles, the Everything Platform"
@@ -41,7 +47,7 @@ export default () => {
     const formSubmit = e => {
         e.preventDefault();
     
-        if (value.trim()) {
+        if (value) {
             if (value.startsWith(">")) {
                 const command = value.replace(">", "");
                 if (!command.length);
@@ -100,12 +106,17 @@ export default () => {
                 <input
                     ref={inputElem}
                     className={value.startsWith(">") ? "terminal" : ""}
-                    onChange={e => formInput(e.target.value)}
+                    onChange={e => formInput(e.target.value.trim())}
                     placeholder="What's up?"
                 />
             </form>
             {value.startsWith(">") ? (
                 <p className="banner">Danger! You are running a terminal command. This could damage your computer. Make sure you know what you're doing!</p>
+            ) : <></>}
+            {answer ? (
+                <div className="answer">
+                    <p>{answer}</p>
+                </div>
             ) : <></>}
             {results.map((result, i) => {
                 return (

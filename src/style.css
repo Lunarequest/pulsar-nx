@@ -33,17 +33,27 @@ p.banner {
     color: #d0d0d0;
 }
 
-.resultItem {
+
+.resultItem, .answer {
     border-top: solid 1px #3b3b3b;
     color: #d0d0d0;
     padding: 10px 20px;
+}
+
+.resultItem p, .answer p {
+    margin: 0;
+}
+
+.answer {
+    font-size: 30px;
+    padding-left: 15px;
+    border-left: solid 5px #d0d0d0;
+}
+
+.resultItem {
     cursor: pointer;
 }
 
 .resultItem.selected {
     background: #2e2e2e;
-}
-
-.resultItem p {
-    margin: 0;
 }
