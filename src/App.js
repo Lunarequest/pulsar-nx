@@ -11,8 +11,7 @@ var inputValue;
 
 export default () => {
     const [value, setValue] = useState("");
-    const [results, setResults] = useState([]);
-    const [answer, setAnswer] = useState();
+    const [data, setData] = useState({results: []});
     const [selection, setSelection] = useState(0);
     const inputElem = createRef();
 
@@ -20,11 +19,7 @@ export default () => {
     const formInput = val => {
         setValue(val);
         inputValue = val;
-        if (!val.trim() || val.startsWith(">")) {
-            setAnswer();
-            setResults([]);
-            return;
-        }
+        if (!val.trim() || val.startsWith(">")) return setData({results: []});
         
         axios.post("http://localhost:8081/pulsar/api/input", {
             input: val
@@ -34,8 +29,7 @@ export default () => {
             }
         }).then((res) => {
             if (val !== inputValue) return;
-            setResults(res.data.results);
-            setAnswer(res.data.answer);
+            setData(res.data);
         }).catch(() => {});
     };
 
@@ -49,7 +43,7 @@ export default () => {
                 if (!command.length);
                 exec(command);
             } else {
-                const result = results[selection];
+                const result = data.results[selection];
                 if (result) doResult(result);
             }
         }
@@ -63,12 +57,12 @@ export default () => {
             win.close();
         } else if (e.key === "ArrowUp") {
             if (selection <= 0) {
-                setSelection(results.length - 1);
+                setSelection(data.results.length - 1);
             } else {
                 setSelection(selection - 1);
             }
         } else if (e.key === "ArrowDown") {
-            if (selection >= results.length - 1) {
+            if (selection >= data.results.length - 1) {
                 setSelection(0);
             } else {
                 setSelection(selection + 1);
@@ -109,12 +103,12 @@ export default () => {
             {value.startsWith(">") ? (
                 <p className="banner">Danger! You are running a terminal command. This could damage your computer. Make sure you know what you're doing!</p>
             ) : <></>}
-            {answer ? (
+            {data.answer ? (
                 <div className="answer">
-                    <p>{answer}</p>
+                    <p>{data.answer}</p>
                 </div>
             ) : <></>}
-            {results.map((result, i) => {
+            {data.results.map((result, i) => {
                 return (
                     <div
                         className={`resultItem ${selection === i ? "selected" : ""}`}
