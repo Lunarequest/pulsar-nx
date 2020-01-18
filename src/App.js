@@ -7,6 +7,8 @@ const {exec} = window.require("child_process");
 const electron = window.require("electron");
 const win = electron.remote.getCurrentWindow();
 
+var inputValue;
+
 export default () => {
     const [value, setValue] = useState("");
     const [results, setResults] = useState([]);
@@ -17,6 +19,7 @@ export default () => {
     //Form Input
     const formInput = val => {
         setValue(val);
+        inputValue = val;
         //TODO: Abort all axios requests HERE
         setResults([]);
         setAnswer();
@@ -30,6 +33,7 @@ export default () => {
                 authorization: "byr4VC8WtiWCimjfwN2oha7d%ji$Fh*YjH$NZazpK*de&yWc2GS$$sJGgt$B^xhyESa6nqYzvcwG$UAx&L3LaT8XubwNAVtF@XFaXD@Td^d2qQCx7Lz%za!&^PNqNNgB"
             }
         }).then((res) => {
+            if (val !== inputValue) return;
             setResults(res.data.results);
             setAnswer(res.data.answer);
         }).catch(() => {});
