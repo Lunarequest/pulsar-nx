@@ -20,11 +20,11 @@ export default () => {
     const formInput = val => {
         setValue(val);
         inputValue = val;
-        //TODO: Abort all axios requests HERE
-        setResults([]);
-        setAnswer();
-        if (!val.trim()) return;
-        if (val.startsWith(">")) return;
+        if (!val.trim() || val.startsWith(">")) {
+            setAnswer();
+            setResults([]);
+            return;
+        }
         
         axios.post("http://localhost:8081/pulsar/api/input", {
             input: val
