@@ -1,4 +1,5 @@
 import React, {useState, createRef, useEffect} from "react";
+import axios from "axios";
 import "./style.css";
 import "./inter/inter.css";
 
@@ -16,31 +17,22 @@ export default () => {
     //Form Input
     const formInput = val => {
         setValue(val);
+        //TODO: Abort all axios requests HERE
         setResults([]);
         setAnswer();
         if (!val.trim()) return;
-
         if (val.startsWith(">")) return;
-        if (val.toLowerCase().includes("time")) setAnswer("It is 20:10");
-
-        setResults([
-            {
-                text: "Alles, the Everything Platform"
-            },
-            {
-                text: "AllesHQ on Twitter",
-                url: "https://twitter.com/alleshq"
-            },
-            {
-                text: "AllesHQ on GitHub"
-            },
-            {
-                text: "Alles, the startup that picked up over 100 reservations on the first day | TechCrunch"
-            },
-            {
-                text: "Alles on Twitter: \"Only 80 followers left until round 2 of reservations! ▰▰▰▰▰▰▱▱▱▱ 60%\""
+        
+        axios.post("http://localhost:8081/pulsar/api/input", {
+            input: val
+        }, {
+            headers: {
+                authorization: "byr4VC8WtiWCimjfwN2oha7d%ji$Fh*YjH$NZazpK*de&yWc2GS$$sJGgt$B^xhyESa6nqYzvcwG$UAx&L3LaT8XubwNAVtF@XFaXD@Td^d2qQCx7Lz%za!&^PNqNNgB"
             }
-        ]);
+        }).then((res) => {
+            setResults(res.data.results);
+            setAnswer(res.data.answer);
+        }).catch(() => {});
     };
 
     //Form Submit
