@@ -3,36 +3,40 @@ const isDev = require("electron-is-dev");
 
 var inputWindow;
 const createInputWindow = () => {
+	//Prevent Duplicate Input Windows
+	if (inputWindow) return;
 
-    //Prevent Duplicate Input Windows
-    if (inputWindow) return;
+	//Create Window
+	inputWindow = new electron.BrowserWindow({
+		width: 800,
+		height: 75,
+		frame: false,
+		resizable: false,
+		alwaysOnTop: true,
+		webPreferences: {
+			nodeIntegration: true
+		}
+	});
+	inputWindow.loadURL(
+		isDev ? "http://localhost:3000" : `file://${__dirname}/../build/index.html`
+	);
 
-    //Create Window
-    inputWindow = new electron.BrowserWindow({
-        width: 800,
-        height: 75,
-        frame: false,
-        resizable: false,
-        alwaysOnTop: true,
-        webPreferences: {
-            nodeIntegration: true
-        }
-    });
-    inputWindow.loadURL(isDev ? "http://localhost:3000" : `file://${__dirname}/../build/index.html`);
+	//Close on blur
+	inputWindow.on("blur", () => {
+		//win.close();
+	});
 
-    //Close on blur
-    inputWindow.on("blur", () => {
-        //win.close();
-    });
-
-    inputWindow.on("close", () => {
-        inputWindow = null;
-    });
-}
+	inputWindow.on("close", () => {
+		inputWindow = null;
+	});
+};
 
 electron.app.on("ready", () => {
-    //Keyboard Shortcut
-    electron.globalShortcut.register("CommandOrControl+Shift+A", createInputWindow);
+	//Keyboard Shortcut
+	electron.globalShortcut.register(
+		"CommandOrControl+Shift+A",
+		createInputWindow
+	);
 });
 
 //Prevent stopping app when windows close
