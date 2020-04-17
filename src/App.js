@@ -102,7 +102,10 @@ export default () => {
 		const w = win.getSize()[0];
 		win.setMinimumSize(w, h);
 		win.setSize(w, h);
-	});
+
+		//Reset Selection
+		if (data.results && data.results.length > 0 && !data.results[selection]) setSelection(0);
+	}, [data]);
 
 	return (
 		<>
