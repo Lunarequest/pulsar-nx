@@ -7,6 +7,8 @@ const {exec} = window.require("child_process");
 const electron = window.require("electron");
 const win = electron.remote.getCurrentWindow();
 
+const apiUrl = "http://localhost:8081/pulsar/api";
+const version = electron.remote.app.getVersion();
 var inputValue;
 
 export default () => {
@@ -23,7 +25,7 @@ export default () => {
 
 		axios
 			.post(
-				"http://localhost:8081/pulsar/api/input",
+				`${apiUrl}/input?version=${version}`,
 				{
 					input: val
 				},
