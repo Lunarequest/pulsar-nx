@@ -21,7 +21,9 @@ export default () => {
 	const formInput = val => {
 		setValue(val);
 		inputValue = val;
-		if (!val.trim() || val.startsWith(">")) return setData({
+		if (!val.trim()) return setData({});
+		
+		if (val.startsWith(">")) return setData({
 			banner: "Danger! You are running a terminal command. This could damage your computer. Make sure you know what you're doing!"
 		});
 
