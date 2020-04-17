@@ -21,7 +21,9 @@ export default () => {
 	const formInput = val => {
 		setValue(val);
 		inputValue = val;
-		if (!val.trim() || val.startsWith(">")) return setData({results: []});
+		if (!val.trim() || val.startsWith(">")) return setData({
+			banner: "Danger! You are running a terminal command. This could damage your computer. Make sure you know what you're doing!"
+		});
 
 		axios
 			.post(
@@ -40,7 +42,7 @@ export default () => {
 				if (val !== inputValue) return;
 				setData(res.data);
 			})
-			.catch(() => {});
+			.catch(() => setData({}));
 	};
 
 	//Form Submit
@@ -110,11 +112,8 @@ export default () => {
 					placeholder="What's up?"
 				/>
 			</form>
-			{value.startsWith(">") ? (
-				<p className="banner">
-					Danger! You are running a terminal command. This could damage your
-					computer. Make sure you know what you're doing!
-				</p>
+			{data.banner ? (
+				<p className="banner">{data.banner}</p>
 			) : (
 				<></>
 			)}
