@@ -1,5 +1,6 @@
 import React, {useState, createRef, useEffect} from "react";
 import axios from "axios";
+import errors from "./errors";
 import "./style.css";
 import "./inter/inter.css";
 
@@ -34,9 +35,9 @@ export default () => {
 					input: val
 				},
 				{
-					headers: {
-						authorization:
-							"byr4VC8WtiWCimjfwN2oha7d%ji$Fh*YjH$NZazpK*de&yWc2GS$$sJGgt$B^xhyESa6nqYzvcwG$UAx&L3LaT8XubwNAVtF@XFaXD@Td^d2qQCx7Lz%za!&^PNqNNgB"
+					auth: {
+						username: "3d343f77-9eb8-42b4-84c4-9258ca7a2a27",
+						password: "mKdwRXoVhWRWbYdw5r5BbhqnE4xP6QKTCwq5RknZcJLj5zzge6uPNuren86zka6kUokks9LvKPmKRaEHcVACFw3ZxFUGvTdkeQ2e7NZeYChh2SS5cqZDJsxXsWntXqLN"
 					}
 				}
 			)
@@ -44,7 +45,12 @@ export default () => {
 				if (val !== inputValue) return;
 				setData(res.data);
 			})
-			.catch(() => setData({}));
+			.catch(error => {
+				if (error.response) {
+					const {err} = error.response.data;
+					setData(errors[err] ? errors[err] : {});
+				} else setData({});
+			});
 	};
 
 	//Form Submit
