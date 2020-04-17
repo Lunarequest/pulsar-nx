@@ -56,7 +56,7 @@ export default () => {
 				const command = value.replace(">", "");
 				if (!command.length);
 				exec(command);
-			} else {
+			} else if (data.results) {
 				const result = data.results[selection];
 				if (result) doResult(result);
 			}
@@ -69,13 +69,13 @@ export default () => {
 	document.onkeydown = e => {
 		if (e.key === "Escape") {
 			win.close();
-		} else if (e.key === "ArrowUp") {
+		} else if (e.key === "ArrowUp" && data.results) {
 			if (selection <= 0) {
 				setSelection(data.results.length - 1);
 			} else {
 				setSelection(selection - 1);
 			}
-		} else if (e.key === "ArrowDown") {
+		} else if (e.key === "ArrowDown" && data.results) {
 			if (selection >= data.results.length - 1) {
 				setSelection(0);
 			} else {
