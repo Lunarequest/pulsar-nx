@@ -88,7 +88,7 @@ export default () => {
 	useEffect(() => {
 		//Focus Input
 		inputElem.current.focus();
-	}, []);
+	}, [inputElem]);
 
 	useEffect(() => {
 		//Change Window Height
@@ -123,23 +123,27 @@ export default () => {
 			) : (
 				<></>
 			)}
-			{data.results.map((result, i) => {
-				return (
-					<div
-						className={`resultItem ${selection === i ? "selected" : ""}`}
-						key={i}
-						onMouseOver={() => {
-							setSelection(i);
-						}}
-						onClick={() => {
-							doResult(result);
-							win.close();
-						}}
-					>
-						<p>{result.text}</p>
-					</div>
-				);
-			})}
+			{data.results ? (
+				data.results.map((result, i) => {
+					return (
+						<div
+							className={`resultItem ${selection === i ? "selected" : ""}`}
+							key={i}
+							onMouseOver={() => {
+								setSelection(i);
+							}}
+							onClick={() => {
+								doResult(result);
+								win.close();
+							}}
+						>
+							<p>{result.text}</p>
+						</div>
+					);
+				})
+			) : (
+				<></>
+			)}
 		</>
 	);
 };
