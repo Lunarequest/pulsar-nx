@@ -7,6 +7,16 @@ import "./inter/inter.css";
 const {exec} = window.require("child_process");
 const electron = window.require("electron");
 const win = electron.remote.getCurrentWindow();
+const fs = window.require("fs");
+
+const clientCredentialsPath = `${electron.remote.app.getPath("userData")}/client.json`;
+var clientCredentials = {
+	id: "",
+	secret: ""
+};
+try {
+	clientCredentials = JSON.parse(fs.readFileSync(clientCredentialsPath, "utf8"));
+} catch (e) {}
 
 const apiUrl = "http://localhost:8081/pulsar/api";
 const version = electron.remote.app.getVersion();
@@ -36,14 +46,30 @@ export default () => {
 				},
 				{
 					auth: {
-						username: "3d343f77-9eb8-42b4-84c4-9258ca7a2a27",
-						password: "mKdwRXoVhWRWbYdw5r5BbhqnE4xP6QKTCwq5RknZcJLj5zzge6uPNuren86zka6kUokks9LvKPmKRaEHcVACFw3ZxFUGvTdkeQ2e7NZeYChh2SS5cqZDJsxXsWntXqLN"
+						username: clientCredentials.id,
+						password: clientCredentials.secret
 					}
 				}
 			)
 			.then(res => {
-				if (val !== inputValue) return;
-				setData(res.data);
+				if (res.data.type === "connect") {
+					clientCredentials.id = res.data.id;
+					clientCredentials.secret = res.data.secret;
+					try {
+						fs.writeFileSync(clientCredentialsPath, JSON.stringify(clientCredentials));
+					} catch (e) {}
+					setData({
+						answer: `Signed in as ${res.data.name}`,
+						results: [
+							{
+								text: "You're ready to use Pulsar!"
+							}
+						]
+					});
+				} else {
+					if (val !== inputValue) return;
+					setData(res.data);
+				}
 			})
 			.catch(error => {
 				if (error.response) {
