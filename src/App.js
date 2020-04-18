@@ -1,6 +1,7 @@
 import React, {useState, createRef, useEffect} from "react";
 import axios from "axios";
 import errors from "./errors";
+import Twemoji from "react-twemoji";
 import "./style.css";
 import "./inter/inter.css";
 
@@ -140,7 +141,7 @@ export default () => {
 	}, [data, selection]);
 
 	return (
-		<>
+		<Twemoji>
 			<form onSubmit={formSubmit}>
 				<input
 					ref={inputElem}
@@ -182,6 +183,6 @@ export default () => {
 			) : (
 				<></>
 			)}
-		</>
+		</Twemoji>
 	);
 };

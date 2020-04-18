@@ -57,3 +57,9 @@ p.banner {
 .resultItem.selected {
     background: #2e2e2e;
 }
+
+.emoji {
+    height: 1em;
+    vertical-align: middle;
+    display: inline-block;
+}
