@@ -111,7 +111,7 @@ export default () => {
 
 		//Reset Selection
 		if (data.results && data.results.length > 0 && !data.results[selection]) setSelection(0);
-	}, [data]);
+	}, [data, selection]);
 
 	return (
 		<>
