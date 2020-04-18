@@ -81,7 +81,7 @@ export default () => {
 	};
 
 	//Form Submit
-	const formSubmit = e => {
+	const formSubmit = async e => {
 		e.preventDefault();
 
 		if (value) {
@@ -91,7 +91,7 @@ export default () => {
 				exec(command);
 			} else if (data.results) {
 				const result = data.results[selection];
-				if (result) doResult(result);
+				if (result) await doResult(result);
 			}
 		}
 
@@ -118,9 +118,21 @@ export default () => {
 	};
 
 	//Do Result
-	const doResult = result => {
+	const doResult = async result => {
 		if (result.url) {
 			electron.shell.openExternal(result.url);
+		} else if (result.data) {
+			try {
+				await axios.post(`${apiUrl}/plugin?version=${version}`, {
+					plugin: data.plugin,
+					data: result.data
+				}, {
+					auth: {
+						username: clientCredentials.id,
+						password: clientCredentials.secret
+					}
+				});
+			} catch (e) {}
 		}
 	};
 
