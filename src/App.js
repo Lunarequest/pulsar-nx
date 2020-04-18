@@ -10,13 +10,17 @@ const electron = window.require("electron");
 const win = electron.remote.getCurrentWindow();
 const fs = window.require("fs");
 
-const clientCredentialsPath = `${electron.remote.app.getPath("userData")}/client.json`;
+const clientCredentialsPath = `${electron.remote.app.getPath(
+	"userData"
+)}/client.json`;
 var clientCredentials = {
 	id: "",
 	secret: ""
 };
 try {
-	clientCredentials = JSON.parse(fs.readFileSync(clientCredentialsPath, "utf8"));
+	clientCredentials = JSON.parse(
+		fs.readFileSync(clientCredentialsPath, "utf8")
+	);
 } catch (e) {}
 
 const apiUrl = "http://localhost:8081/pulsar/api";
@@ -34,10 +38,12 @@ export default () => {
 		setValue(val);
 		inputValue = val;
 		if (!val.trim()) return setData({});
-		
-		if (val.startsWith(">")) return setData({
-			banner: "Danger! You are running a terminal command. This could damage your computer. Make sure you know what you're doing!"
-		});
+
+		if (val.startsWith(">"))
+			return setData({
+				banner:
+					"Danger! You are running a terminal command. This could damage your computer. Make sure you know what you're doing!"
+			});
 
 		axios
 			.post(
@@ -57,7 +63,10 @@ export default () => {
 					clientCredentials.id = res.data.id;
 					clientCredentials.secret = res.data.secret;
 					try {
-						fs.writeFileSync(clientCredentialsPath, JSON.stringify(clientCredentials));
+						fs.writeFileSync(
+							clientCredentialsPath,
+							JSON.stringify(clientCredentials)
+						);
 					} catch (e) {}
 					setData({
 						answer: `Signed in as ${res.data.name}`,
@@ -123,15 +132,19 @@ export default () => {
 			electron.shell.openExternal(result.url);
 		} else if (result.data) {
 			try {
-				await axios.post(`${apiUrl}/plugin?version=${version}`, {
-					plugin: data.plugin,
-					data: result.data
-				}, {
-					auth: {
-						username: clientCredentials.id,
-						password: clientCredentials.secret
+				await axios.post(
+					`${apiUrl}/plugin?version=${version}`,
+					{
+						plugin: data.plugin,
+						data: result.data
+					},
+					{
+						auth: {
+							username: clientCredentials.id,
+							password: clientCredentials.secret
+						}
 					}
-				});
+				);
 			} catch (e) {}
 		}
 	};
@@ -149,7 +162,8 @@ export default () => {
 		win.setSize(w, h);
 
 		//Reset Selection
-		if (data.results && data.results.length > 0 && !data.results[selection]) setSelection(0);
+		if (data.results && data.results.length > 0 && !data.results[selection])
+			setSelection(0);
 	}, [data, selection]);
 
 	return (
@@ -162,11 +176,7 @@ export default () => {
 					placeholder="What's up?"
 				/>
 			</form>
-			{data.banner ? (
-				<p className="banner">{data.banner}</p>
-			) : (
-				<></>
-			)}
+			{data.banner ? <p className="banner">{data.banner}</p> : <></>}
 			{data.answer ? (
 				<div className="answer">
 					<p>{data.answer}</p>
