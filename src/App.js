@@ -23,7 +23,7 @@ try {
 	);
 } catch (e) {}
 
-const apiUrl = "http://localhost:8081/pulsar/api";
+const apiUrl = "https://pulsar.alles.cx/pulsar/api";
 const version = electron.remote.app.getVersion();
 var inputValue;
 
