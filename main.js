@@ -1,4 +1,4 @@
-const electron = require("electron");
+const {app, BrowserWindow, globalShortcut, Tray, Menu, shell} = require("electron");
 const isDev = require("electron-is-dev");
 
 var inputWindow;
@@ -7,7 +7,7 @@ const createInputWindow = () => {
 	if (inputWindow) return;
 
 	//Create Window
-	inputWindow = new electron.BrowserWindow({
+	inputWindow = new BrowserWindow({
 		width: 800,
 		height: 75,
 		frame: false,
@@ -23,21 +23,47 @@ const createInputWindow = () => {
 
 	//Close on blur
 	inputWindow.on("blur", () => {
-		//win.close();
+		if (!isDev) win.close();
 	});
 
+	//On Close
 	inputWindow.on("close", () => {
 		inputWindow = null;
 	});
 };
 
-electron.app.on("ready", () => {
-	//Keyboard Shortcut
-	electron.globalShortcut.register(
+app.on("ready", () => {
+	//Shortcut
+	globalShortcut.register(
 		process.platform === "darwin" ? "Option+A" : "Alt+A",
 		createInputWindow
 	);
+
+	//Tray
+	const tray = new Tray("a10.png");
+	const ctxMenu = Menu.buildFromTemplate([
+		{
+			type: "normal",
+			label: "Pulsar's Secret Control Panel",
+			enabled: false
+		},
+		{
+			type: "separator"
+		},
+		{
+			type: "normal",
+			label: "Open Pulsar",
+			click: createInputWindow
+		},
+		{
+			type: "normal",
+			label: "Go to Pulsar's Website",
+			click: () => shell.openExternal("https://pulsar.alles.cx")
+		}
+	]);
+	tray.setToolTip("Pulsar's Secret Control Panel");
+	tray.setContextMenu(ctxMenu);
 });
 
 //Prevent stopping app when windows close
-electron.app.on("window-all-closed", e => e.preventDefault());
+app.on("window-all-closed", e => e.preventDefault());
