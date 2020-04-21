@@ -44,24 +44,10 @@ app.on("ready", () => {
 	const ctxMenu = Menu.buildFromTemplate([
 		{
 			type: "normal",
-			label: "Pulsar's Secret Control Panel",
+			label: "Pulsar, by Alles",
 			enabled: false
-		},
-		{
-			type: "separator"
-		},
-		{
-			type: "normal",
-			label: "Open Pulsar",
-			click: createInputWindow
-		},
-		{
-			type: "normal",
-			label: "Go to Pulsar's Website",
-			click: () => shell.openExternal("https://pulsar.alles.cx")
 		}
 	]);
-	tray.setToolTip("Pulsar's Secret Control Panel");
 	tray.setContextMenu(ctxMenu);
 });
 
