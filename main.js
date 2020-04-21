@@ -23,7 +23,7 @@ const createInputWindow = () => {
 
 	//Close on blur
 	inputWindow.on("blur", () => {
-		if (!isDev) win.close();
+		if (!isDev) inputWindow.close();
 	});
 
 	//On Close
