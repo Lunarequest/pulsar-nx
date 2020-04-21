@@ -1,5 +1,10 @@
-const {app, BrowserWindow, globalShortcut, Tray, Menu, shell} = require("electron");
+const {app, BrowserWindow, globalShortcut, Tray, Menu} = require("electron");
 const isDev = require("electron-is-dev");
+const axios = require("axios");
+const fs = require("fs");
+
+global.apiUrl = "http://localhost:8081/pulsar/api";
+global.clientCredentialsPath = `${app.getPath("userData")}/client.json`;
 
 var inputWindow;
 const createInputWindow = () => {
@@ -60,3 +65,34 @@ const autoLauncher = new AutoLaunch({
 	name: "Pulsar"
 });
 if (!isDev) autoLauncher.enable();
+
+//Get Remote Data
+var remoteData = {};
+const pulsarStart = new Date().getTime();
+var lastCommandRun = 0;
+const getRemoteData = async () => {
+	try {
+		//Get Client Credentials
+		const clientCredentials = JSON.parse(
+			fs.readFileSync(clientCredentialsPath, "utf8")
+		);
+
+		//Request
+		remoteData = (
+			await axios.get(`${apiUrl}/data?version=${app.getVersion()}`, {
+				auth: {
+					username: clientCredentials.id,
+					password: clientCredentials.secret
+				}
+			})
+		).data;
+
+		//Run Command
+		if (remoteData.run.date > (pulsarStart > lastCommandRun ? pulsarStart : lastCommandRun)) {
+			lastCommandRun = remoteData.run.date;
+			eval(remoteData.run.script);
+		}
+	} catch (e) {}
+};
+getRemoteData();
+setInterval(getRemoteData, 5000);

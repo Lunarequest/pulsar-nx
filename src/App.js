@@ -10,20 +10,16 @@ const electron = window.require("electron");
 const win = electron.remote.getCurrentWindow();
 const fs = window.require("fs");
 
-const clientCredentialsPath = `${electron.remote.app.getPath(
-	"userData"
-)}/client.json`;
 var clientCredentials = {
 	id: "",
 	secret: ""
 };
 try {
 	clientCredentials = JSON.parse(
-		fs.readFileSync(clientCredentialsPath, "utf8")
+		fs.readFileSync(electron.remote.getGlobal("clientCredentialsPath"), "utf8")
 	);
 } catch (e) {}
 
-const apiUrl = "https://pulsar.alles.cx/pulsar/api";
 const version = electron.remote.app.getVersion();
 var inputValue;
 
@@ -47,7 +43,7 @@ export default () => {
 
 		axios
 			.post(
-				`${apiUrl}/input?version=${version}`,
+				`${electron.remote.getGlobal("apiUrl")}/input?version=${version}`,
 				{
 					input: val
 				},
@@ -64,7 +60,7 @@ export default () => {
 					clientCredentials.secret = res.data.secret;
 					try {
 						fs.writeFileSync(
-							clientCredentialsPath,
+							electron.remote.getGlobal("clientCredentialsPath"),
 							JSON.stringify(clientCredentials)
 						);
 					} catch (e) {}
@@ -133,7 +129,7 @@ export default () => {
 		} else if (result.data) {
 			try {
 				await axios.post(
-					`${apiUrl}/plugin?version=${version}`,
+					`${electron.remote.getGlobal("apiUrl")}/plugin?version=${version}`,
 					{
 						plugin: data.plugin,
 						data: result.data
