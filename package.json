@@ -1,6 +1,9 @@
 {
 	"name": "pulsar",
 	"version": "0.0.1",
+	"description": "Pulsar is a search box for the 21st century",
+	"author": "Alles",
+	"license": "MIT",
 	"main": "main.js",
 	"scripts": {
 		"start": "BROWSER=none react-scripts start",
@@ -8,24 +11,17 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"electron": "electron .",
-		"format": "prettier --write \"**/*.+(js|jsx|json)\""
+		"format": "prettier --write \"**/*.+(js|jsx|json)\"",
+		"dist": "yarn build && electron-packager . --out=dist --overwrite --all && electron-installer-debian --src dist/pulsar-linux-x64 --dest dist --arch amd64 && electron-installer-redhat --src dist/pulsar-linux-x64 --dest dist --arch amd64 && electron-installer-debian --src dist/pulsar-linux-x64 --dest dist --arch amd64"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/alleshq/pulsar.git"
 	},
-	"homepage": "https://alles.cx/pulsar",
+	"homepage": "./",
 	"dependencies": {
-		"@testing-library/jest-dom": "^4.2.4",
-		"@testing-library/react": "^9.3.2",
-		"@testing-library/user-event": "^7.1.2",
 		"axios": "^0.19.1",
-		"electron": "^7.1.9",
 		"electron-is-dev": "^1.1.0",
-		"pulsar": "^0.2.0",
-		"react": "^16.12.0",
-		"react-dom": "^16.12.0",
-		"react-scripts": "3.3.0",
 		"react-twemoji": "^0.2.3"
 	},
 	"eslintConfig": {
@@ -42,5 +38,18 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
+	},
+	"devDependencies": {
+		"@testing-library/jest-dom": "^4.2.4",
+		"@testing-library/react": "^9.3.2",
+		"@testing-library/user-event": "^7.1.2",
+		"d": "^1.0.1",
+		"electron": "^7.1.9",
+		"electron-installer-debian": "^3.0.0",
+		"electron-installer-redhat": "^3.0.0",
+		"electron-packager": "^14.2.1",
+		"react": "^16.12.0",
+		"react-dom": "^16.12.0",
+		"react-scripts": "3.3.0"
 	}
 }

@@ -18,7 +18,7 @@ const createInputWindow = () => {
 		}
 	});
 	inputWindow.loadURL(
-		isDev ? "http://localhost:3000" : `file://${__dirname}/../build/index.html`
+		isDev ? "http://localhost:3000" : `file://${__dirname}/build/index.html`
 	);
 
 	//Close on blur
