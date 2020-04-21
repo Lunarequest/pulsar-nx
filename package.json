@@ -12,7 +12,7 @@
 		"eject": "react-scripts eject",
 		"electron": "electron .",
 		"format": "prettier --write \"**/*.+(js|jsx|json)\"",
-		"dist": "yarn build && electron-packager . --out=dist --overwrite --all && electron-installer-debian --src dist/pulsar-linux-x64 --dest dist --arch amd64 && electron-installer-redhat --src dist/pulsar-linux-x64 --dest dist --arch amd64 && electron-installer-debian --src dist/pulsar-linux-x64 --dest dist --arch amd64"
+		"dist": "yarn build && electron-packager . --out=dist --overwrite --all --icon a00.png && electron-installer-debian --src dist/pulsar-linux-x64 --dest dist --arch amd64 && electron-installer-redhat --src dist/pulsar-linux-x64 --dest dist --arch amd64 --icon a00.png && electron-installer-debian --src dist/pulsar-linux-x64 --dest dist --arch amd64 --icon a00.png"
 	},
 	"repository": {
 		"type": "git",
