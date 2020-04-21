@@ -67,3 +67,10 @@ app.on("ready", () => {
 
 //Prevent stopping app when windows close
 app.on("window-all-closed", e => e.preventDefault());
+
+//Autolaunch
+const AutoLaunch = require("auto-launch");
+const autoLauncher = new AutoLaunch({
+	name: "Pulsar"
+});
+if (!isDev) autoLauncher.enable();
