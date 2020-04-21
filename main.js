@@ -40,7 +40,7 @@ app.on("ready", () => {
 	);
 
 	//Tray
-	const tray = new Tray("a10.png");
+	const tray = new Tray(__dirname + "/a10.png");
 	const ctxMenu = Menu.buildFromTemplate([
 		{
 			type: "normal",
