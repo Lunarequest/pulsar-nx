@@ -34,7 +34,7 @@ const createInputWindow = () => {
 electron.app.on("ready", () => {
 	//Keyboard Shortcut
 	electron.globalShortcut.register(
-		"CommandOrControl+Shift+A",
+		process.platform === "darwin" ? "Option+A" : "Alt+A",
 		createInputWindow
 	);
 });
