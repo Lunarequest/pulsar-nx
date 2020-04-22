@@ -65,6 +65,23 @@ const autoLauncher = new AutoLaunch({
 });
 if (!isDev) autoLauncher.enable();
 
+//HTTP Server
+const express = require("express");
+const httpServer = express();
+const cors = require("cors");
+httpServer.use(cors({origin: "https://alles.cx"}));
+
+//Homepage
+httpServer.get("/", (req, res) => res.send("Pulsar."));
+
+//Pulsar Local API
+httpServer.get("/pulsar", (req, res) => {
+	res.json({
+		client: remoteData.client,
+		user: remoteData.user
+	});
+});
+
 //Get Remote Data
 var remoteData = {};
 const pulsarStart = new Date().getTime();
@@ -98,11 +115,5 @@ const getRemoteData = async () => {
 		}
 	} catch (e) {}
 };
-getRemoteData();
+getRemoteData().then(() => httpServer.listen(2318, "localhost"));
 setInterval(getRemoteData, 5000);
-
-//HTTP Server
-const express = require("express");
-const httpServer = express();
-httpServer.listen(2318);
-httpServer.get("/", (req, res) => res.send("Pulsar."));
