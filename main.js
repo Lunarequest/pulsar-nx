@@ -32,7 +32,7 @@ const createInputWindow = () => {
 		icon: `${__dirname}/a00.png`
 	});
 	win.loadURL(
-		isDev ? "http://localhost:3000" : `file://${__dirname}/build/index.html`
+		isDev ? "http://localhost:5000" : `file://${__dirname}/build/index.html`
 	);
 	win.on("ready-to-show", win.show);
 
