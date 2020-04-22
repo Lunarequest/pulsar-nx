@@ -3,7 +3,7 @@ const isDev = require("electron-is-dev");
 const axios = require("axios");
 const fs = require("fs");
 
-global.apiUrl = "http://localhost:8081/pulsar/api";
+global.apiUrl = "https://pulsar.alles.cx/pulsar/api";
 global.clientCredentialsPath = `${app.getPath("userData")}/client.json`;
 
 var inputWindow;
