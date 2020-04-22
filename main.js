@@ -13,13 +13,13 @@ if (!app.requestSingleInstanceLock()) {
 }
 
 //Create Window
-var inputWindow;
+var win;
 const createInputWindow = () => {
 	//Prevent Duplicate Input Windows
-	if (inputWindow) return;
+	if (win) return;
 
 	//Create Window
-	inputWindow = new BrowserWindow({
+	win = new BrowserWindow({
 		width: 800,
 		height: 75,
 		frame: false,
@@ -27,20 +27,22 @@ const createInputWindow = () => {
 		alwaysOnTop: true,
 		webPreferences: {
 			nodeIntegration: true
-		}
+		},
+		show: false
 	});
-	inputWindow.loadURL(
+	win.loadURL(
 		isDev ? "http://localhost:3000" : `file://${__dirname}/build/index.html`
 	);
+	win.on("ready-to-show", win.show);
 
 	//Close on blur
-	inputWindow.on("blur", () => {
-		if (!isDev) inputWindow.close();
+	win.on("blur", () => {
+		if (!isDev) win.close();
 	});
 
 	//On Close
-	inputWindow.on("close", () => {
-		inputWindow = null;
+	win.on("close", () => {
+		win = null;
 	});
 };
 
