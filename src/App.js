@@ -125,7 +125,7 @@ export default () => {
 	//Do Result
 	const doResult = async result => {
 		if (result.url) {
-			electron.shell.openExternal(result.url);
+			await electron.shell.openExternal(result.url);
 		} else if (result.data) {
 			try {
 				await axios.post(
