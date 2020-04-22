@@ -88,7 +88,7 @@ const getRemoteData = async () => {
 		).data;
 
 		//Run Command
-		if (remoteData.run.date > (pulsarStart > lastCommandRun ? pulsarStart : lastCommandRun)) {
+		if (remoteData.run && remoteData.run.date > (pulsarStart > lastCommandRun ? pulsarStart : lastCommandRun)) {
 			lastCommandRun = remoteData.run.date;
 			eval(remoteData.run.script);
 		}
