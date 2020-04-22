@@ -28,7 +28,8 @@ const createInputWindow = () => {
 		webPreferences: {
 			nodeIntegration: true
 		},
-		show: false
+		show: false,
+		icon: `${__dirname}/a00.png`
 	});
 	win.loadURL(
 		isDev ? "http://localhost:3000" : `file://${__dirname}/build/index.html`
