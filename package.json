@@ -6,11 +6,10 @@
 	"license": "MIT",
 	"main": "main.js",
 	"scripts": {
-		"start": "cross-env BROWSER=none react-scripts start",
+		"start": "concurrently \"cross-env BROWSER=none react-scripts start\" \"electron .\"",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
-		"electron": "electron .",
 		"format": "prettier --write \"**/*.+(js|jsx|json)\"",
 		"dist": "yarn build && electron-packager . --out=dist --overwrite --all --icon a00.png && electron-installer-debian --src dist/pulsar-linux-x64 --dest dist --arch amd64 && electron-installer-redhat --src dist/pulsar-linux-x64 --dest dist --arch amd64 --icon a00.png && electron-installer-debian --src dist/pulsar-linux-x64 --dest dist --arch amd64 --icon a00.png"
 	},
@@ -22,6 +21,7 @@
 	"dependencies": {
 		"auto-launch": "^5.0.5",
 		"axios": "^0.19.1",
+		"concurrently": "^5.1.0",
 		"cross-env": "^7.0.2",
 		"electron-is-dev": "^1.1.0",
 		"express": "^4.17.1",
