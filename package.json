@@ -6,7 +6,7 @@
 	"license": "MIT",
 	"main": "main.js",
 	"scripts": {
-		"start": "BROWSER=none react-scripts start",
+		"start": "cross-env BROWSER=none react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
@@ -22,6 +22,7 @@
 	"dependencies": {
 		"auto-launch": "^5.0.5",
 		"axios": "^0.19.1",
+		"cross-env": "^7.0.2",
 		"electron-is-dev": "^1.1.0",
 		"react-twemoji": "^0.2.3"
 	},
