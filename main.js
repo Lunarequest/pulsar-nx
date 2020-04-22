@@ -43,17 +43,6 @@ app.on("ready", () => {
 		process.platform === "darwin" ? "Option+A" : "Alt+A",
 		createInputWindow
 	);
-
-	//Tray
-	const tray = new Tray(__dirname + "/a10.png");
-	const ctxMenu = Menu.buildFromTemplate([
-		{
-			type: "normal",
-			label: "Pulsar, by Alles",
-			enabled: false
-		}
-	]);
-	tray.setContextMenu(ctxMenu);
 });
 
 //Prevent stopping app when windows close
