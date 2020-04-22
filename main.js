@@ -6,6 +6,13 @@ const fs = require("fs");
 global.apiUrl = "https://pulsar.alles.cx/pulsar/api";
 global.clientCredentialsPath = `${app.getPath("userData")}/client.json`;
 
+//Prevent Multiple Instances
+if (!app.requestSingleInstanceLock()) {
+	console.log("Pulsar is already running!");
+	app.quit();
+}
+
+//Create Window
 var inputWindow;
 const createInputWindow = () => {
 	//Prevent Duplicate Input Windows
