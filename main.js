@@ -1,4 +1,4 @@
-const {app, BrowserWindow, globalShortcut, Tray, Menu} = require("electron");
+const {app, BrowserWindow, globalShortcut} = require("electron");
 const isDev = require("electron-is-dev");
 const axios = require("axios");
 const fs = require("fs");
