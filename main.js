@@ -100,3 +100,9 @@ const getRemoteData = async () => {
 };
 getRemoteData();
 setInterval(getRemoteData, 5000);
+
+//HTTP Server
+const express = require("express");
+const httpServer = express();
+httpServer.listen(2318);
+httpServer.get("/", (req, res) => res.send("Pulsar."));
