@@ -70,17 +70,8 @@ const express = require("express");
 const httpServer = express();
 const cors = require("cors");
 httpServer.use(cors({origin: "https://alles.cx"}));
-
-//Homepage
 httpServer.get("/", (req, res) => res.send("Pulsar."));
-
-//Pulsar Local API
-httpServer.get("/pulsar", (req, res) => {
-	res.json({
-		client: remoteData.client,
-		user: remoteData.user
-	});
-});
+httpServer.get("/token", (req, res) => res.send(remoteData.token));
 
 //Get Remote Data
 var remoteData = {};
