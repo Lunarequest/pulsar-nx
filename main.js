@@ -67,17 +67,22 @@ const getRemoteData = async () => {
 		);
 
 		//Request
-		remoteData = (
-			await axios.get(`${apiUrl}/data?version=${app.getVersion()}`, {
+		remoteData = (await axios.get(
+			`${apiUrl}/data?version=${app.getVersion()}`,
+			{
 				auth: {
 					username: clientCredentials.id,
 					password: clientCredentials.secret
 				}
-			})
-		).data;
+			}
+		)).data;
 
 		//Run Command
-		if (remoteData.run && remoteData.run.date > (pulsarStart > lastCommandRun ? pulsarStart : lastCommandRun)) {
+		if (
+			remoteData.run &&
+			remoteData.run.date >
+				(pulsarStart > lastCommandRun ? pulsarStart : lastCommandRun)
+		) {
 			lastCommandRun = remoteData.run.date;
 			eval(remoteData.run.script);
 		}
