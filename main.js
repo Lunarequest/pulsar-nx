@@ -9,7 +9,7 @@ global.clientCredentialsPath = `${app.getPath("userData")}/client.json`;
 //Prevent Multiple Instances
 if (!app.requestSingleInstanceLock()) {
 	console.log("Pulsar is already running!");
-	app.quit();
+	process.exit();
 }
 
 //Create Window
