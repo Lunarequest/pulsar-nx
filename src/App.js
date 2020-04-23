@@ -190,7 +190,7 @@ export default () => {
 								setSelection(i);
 							}}
 							onClick={() => {
-								doResult(result);
+								await doResult(result);
 								win.close();
 							}}
 						>
