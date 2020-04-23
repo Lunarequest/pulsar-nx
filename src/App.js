@@ -189,7 +189,7 @@ export default () => {
 							onMouseOver={() => {
 								setSelection(i);
 							}}
-							onClick={() => {
+							onClick={async () => {
 								await doResult(result);
 								win.close();
 							}}
