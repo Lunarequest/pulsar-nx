@@ -27,7 +27,6 @@ export default () => {
 	const [value, setValue] = useState("");
 	const [data, setData] = useState({results: []});
 	const [selection, setSelection] = useState(0);
-	const inputElem = createRef();
 
 	//Form Input
 	const formInput = val => {
@@ -146,11 +145,6 @@ export default () => {
 	};
 
 	useEffect(() => {
-		//Focus Input
-		inputElem.current.focus();
-	}, [inputElem]);
-
-	useEffect(() => {
 		//Change Window Height
 		const h = document.querySelector("#root").getBoundingClientRect().height;
 		const w = win.getSize()[0];
@@ -166,10 +160,10 @@ export default () => {
 		<Twemoji>
 			<form onSubmit={formSubmit}>
 				<input
-					ref={inputElem}
 					className={value.startsWith(">") ? "terminal" : ""}
 					onChange={e => formInput(e.target.value.trim())}
 					placeholder="What's up?"
+					autoFocus
 				/>
 			</form>
 			{data.banner ? <p className="banner">{data.banner}</p> : <></>}
