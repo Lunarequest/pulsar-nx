@@ -70,7 +70,7 @@ const express = require("express");
 const httpServer = express();
 const cors = require("cors");
 httpServer.use(cors({origin: "https://alles.cx"}));
-httpServer.get("/", (req, res) => res.send("Pulsar."));
+httpServer.get("/", (req, res) => res.sendFile(`${__dirname}/web.html`));
 httpServer.get("/token", (req, res) => res.send(remoteData.token));
 
 //Get Remote Data

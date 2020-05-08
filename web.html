@@ -1,0 +1,318 @@
+<html>
+    <head>
+        <title>Pulsar</title>
+        <link href="https://fonts.googleapis.com/css?family=KoHo" rel="stylesheet" />
+        <style>
+            :root {
+                --spaceBlue: #2c3e50;
+                --nearlyWhite: #95a5a6;
+                --notQuiteWhite: #ddd3d7;
+                --red: #e74c3c;
+            }
+
+            body {
+                font-family: KoHo, sans-serif;
+                color: var(--nearlyWhite);
+                margin: 0;
+                background: var(--spaceBlue);
+            }
+
+            main {
+                display: flex;
+                flex-flow: column;
+                justify-content: center;
+                height: 100%;
+            }
+
+            main > div {
+                display: flex;
+                justify-content: center;
+            }
+
+            .dot {
+                background: var(--red);
+                border-radius: 50%;
+                height: 35px;
+                width: 35px;
+                margin: auto 10px;
+            }
+
+            h1 {
+                color: var(--notQuiteWhite);
+                margin: 0;
+            }
+
+            canvas {
+                display: none;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <div>
+                <div class="dot"></div>
+                <h1>Pulsar is running</h1>
+            </div>
+        </main>
+        <canvas></canvas>
+
+        <script>
+            const main = document.querySelector("main");
+            const dot = document.querySelector(".dot");
+            const title = document.querySelector("h1");
+            const canvas = document.querySelector("canvas");
+            const c = canvas.getContext("2d");
+
+            // Game Constants
+            const playerSize = 35;
+            const bulletSize = 10;
+
+            // Game Start
+            dot.onclick = e => {
+                // Canvas Size
+                canvas.width = innerWidth;
+                canvas.height = innerHeight;
+
+                // Game Data
+                let x = dot.getBoundingClientRect().x + playerSize / 2;
+                let y = dot.getBoundingClientRect().y + playerSize / 2;
+                let mouseX = e.clientX;
+                let mouseY = e.clientY;
+                let score = 100;
+                let speedBoost = 80;
+                let speedBoostActive = false;
+                let shooting = false;
+                let bullets = [];
+                let enemies = [];
+
+                // Switch to canvas
+                main.style.display = "none";
+                canvas.style.display = "block";
+
+                // Mouse Movement
+                canvas.onmousemove = e => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                };
+
+                // Activate Speed Boost
+                canvas.oncontextmenu = e => {
+                    e.preventDefault();
+                    if (speedBoost >= 100) speedBoostActive = true;
+                };
+
+                // Shooting
+                canvas.onmousedown = () => shooting = true;
+                canvas.onmouseup = () => shooting = false;
+
+                // Game Loop
+                const startTime = new Date().getTime();
+                const gameLoop = setInterval(() => {
+                    const seconds = Math.floor((new Date().getTime() - startTime) / 1000);
+
+                    // Clear Canvas
+                    c.clearRect(0, 0, canvas.width, canvas.height);
+
+                    // When score is 0, end game loop
+                    if (score <= 0) {
+                        title.innerText = `You survived for ${seconds} seconds`;
+                        main.style.display = "flex";
+                        canvas.style.display = "none";
+                        return clearInterval(gameLoop);
+                    };
+
+                    // Help Text
+                    c.fillStyle = "#95a5a6";
+                    c.font = "18px KoHo, sans-serif";
+                    c.fillText((
+                        score < 50 ?
+                            "You're on low health! Avoid being shot and shoot enemies to regain points." :
+                            seconds < 30 ?
+                                "Left click to shoot, right click to use speed boost" :
+                                seconds < 60 ?
+                                    "Enemies get more powerful the longer you survive..." :
+                                    `You've survived for ${seconds} seconds. Keep going!`
+                    ), 50, 25);
+
+                    // Speed Boost
+                    if (speedBoostActive) {
+                        speedBoost--;
+                        if (speedBoost <= 0) speedBoostActive = false;
+                    } else {
+                        if (speedBoost < 100) speedBoost += 0.2;
+                    }
+
+                    // Calculate Direction
+                    let d = Math.atan2(mouseY - y, mouseX - x) * (180/Math.PI) + 90;
+                    if (d < 0) d = d + 360;
+
+                    // Draw Border
+                    c.strokeStyle = "#95a5a6";
+                    c.strokeRect(50, 50, canvas.width - 100, canvas.height - 100);
+                    
+                    // Move Player
+                    const playerTouchingMouse =
+                        x > mouseX - 10 &&
+                        x < mouseX + 10 &&
+                        y > mouseY - 10 &&
+                        y < mouseY + 10;
+                    if (!playerTouchingMouse) {
+                        x += (Math.cos((d - 90) * (Math.PI/180)) * 5 * (speedBoostActive ? 2 : 1));
+                        y += (Math.sin((d - 90) * (Math.PI/180)) * 5 * (speedBoostActive ? 2 : 1));
+                    }
+
+                    // Offscreen
+                    if (
+                        x < 50 ||
+                        x > canvas.width - 50 ||
+                        y < 50 ||
+                        y > canvas.height - 50
+                    ) score--;
+
+                    // Draw Player
+                    c.beginPath();
+                    c.fillStyle = "#e74c3c";
+                    c.arc(x, y, playerSize / 2, 0, Math.PI * 2);
+                    c.fill();
+
+                    // Shooting
+                    if (shooting) {
+                        score--;
+                        bullets.push({
+                            id: Math.random(),
+                            x,
+                            y,
+                            d,
+                            player: true
+                        });
+                    }
+
+                    // Move Bullets
+                    bullets.forEach(bullet => {
+                        const i = bullets.map(b => b.id).indexOf(bullet.id);
+                        bullet.x += (Math.cos((bullet.d - 90) * (Math.PI/180)) * 8);
+                        bullet.y += (Math.sin((bullet.d - 90) * (Math.PI/180)) * 8);
+                        
+                        // Offscreen
+                        if (
+                            bullet.x < 0 ||
+                            bullet.x > canvas.width ||
+                            bullet.y < 0 ||
+                            bullet.y > canvas.height
+                        ) {
+                            return bullets.splice(i, 1);
+                        }
+
+                        // Hit
+                        if (bullet.player) {
+                            enemies.forEach(enemy => {
+                                if (
+                                    bullet.x > enemy.x - playerSize &&
+                                    bullet.x < enemy.x + playerSize &&
+                                    bullet.y > enemy.y - playerSize &&
+                                    bullet.y < enemy.y + playerSize
+                                ) {
+                                    bullets.splice(i, 1);
+                                    if (score < 200) score += 3;
+                                    enemy.health--;
+                                }
+                            });
+                        } else {
+                            if (
+                                bullet.x > x - playerSize &&
+                                bullet.x < x + playerSize &&
+                                bullet.y > y - playerSize &&
+                                bullet.y < y + playerSize
+                            ) {
+                                bullets.splice(i, 1);
+                                score -= 5;
+                            }
+                        }
+                    });
+
+                    // Draw Bullets
+                    c.fillStyle = "#f39c12";
+                    bullets.forEach(bullet => {
+                        c.beginPath();
+                        c.arc(bullet.x, bullet.y, bulletSize / 2, 0, Math.PI * 2);
+                        c.fill();
+                    });
+
+                    // Generate Enemies
+                    if (Math.floor(Math.random() * (seconds < 60 ? 100 - seconds : 40)) === 0 && enemies.length < 20) {
+                        let edge = Math.floor(Math.random() * 4);
+                        enemies.push({
+                            id: Math.random(),
+                            x: edge === 0 || edge === 2 ? Math.floor(Math.random() * canvas.width) : edge === 1 ? 0 : canvas.width,
+                            y: edge === 1 || edge === 3 ? Math.floor(Math.random() * canvas.height) : edge === 0 ? 0 : canvas.height,
+                            d: (180 + 90 * edge) % 360,
+                            dChange: 0,
+                            health: seconds < 99 ? seconds + 1 : 100
+                        });
+                    }
+
+                    // Enemy AI
+                    enemies.forEach(enemy => {
+                        // Movement
+                        enemy.dChange += Math.floor(Math.random() * 1) - 0.5;
+                        enemy.d = Math.atan2(y - enemy.y, x - enemy.x) * (180/Math.PI) + 90 + enemy.dChange;
+                        enemy.x += (Math.cos((enemy.d - 90) * (Math.PI/180)) * 4);
+                        enemy.y += (Math.sin((enemy.d - 90) * (Math.PI/180)) * 4);
+
+                        // When offscreen, correct direction
+                        if (
+                            enemy.x < 50 ||
+                            enemy.x > canvas.width - 50 ||
+                            enemy.y < 50 ||
+                            enemy.y > canvas.height - 50
+                        ) {
+                            if (enemy.dChange > 0) {
+                                enemy.dChange -= 5;
+                            } else {
+                                enemy.dChange += 5;
+                            }
+                        }
+
+                        // Shoot
+                        if (Math.floor(Math.random() * (seconds < 25 ? 30 - seconds : 5)) === 0) {
+                            bullets.push({
+                                id: Math.random(),
+                                x: enemy.x,
+                                y: enemy.y,
+                                d: enemy.d,
+                                player: false
+                            });
+                        }
+
+                        // Death
+                        if (enemy.health <= 0) {
+                            const i = enemies.map(e => e.id).indexOf(enemy.id);
+                            enemies.splice(i, 1);
+                        }
+                    });
+
+                    // Draw Enemies
+                    c.fillStyle = "#27ae60";
+                    enemies.forEach(enemy => {
+                        c.beginPath();
+                        c.arc(enemy.x, enemy.y, playerSize / 2, 0, Math.PI * 2);
+                        c.fill();
+                    });
+
+                    // Speed Bar
+                    c.fillStyle = "#95a5a6";
+                    c.fillRect(canvas.width / 2 - 100, canvas.height - 80, 200, 40);
+                    c.fillStyle = speedBoostActive ? "#e67e22" : "#27ae60";
+                    c.fillRect(canvas.width / 2 - 100, canvas.height - 80, speedBoost * 2, 40);
+
+                    // Score
+                    c.fillStyle = score < 50 ? "#e74c3c" : "#95a5a6";
+                    c.font = "25px KoHo, sans-serif";
+                    c.fillText(score, canvas.width / 2 - c.measureText(score).width / 2, canvas.height - 100);
+                }, 1000 / 30);
+            };
+        </script>
+    </body>
+</html>
