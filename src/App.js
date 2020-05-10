@@ -5,7 +5,6 @@ import Twemoji from "react-twemoji";
 import "./style.css";
 import "./inter/inter.css";
 
-const {exec} = window.require("child_process");
 const electron = window.require("electron");
 const win = electron.remote.getCurrentWindow();
 const fs = window.require("fs");
@@ -33,12 +32,6 @@ export default () => {
 		setValue(val);
 		inputValue = val;
 		if (!val.trim()) return setData({});
-
-		if (val.startsWith(">"))
-			return setData({
-				banner:
-					"Danger! You are running a terminal command. This could damage your computer. Make sure you know what you're doing!"
-			});
 
 		axios
 			.post(
@@ -88,15 +81,9 @@ export default () => {
 	const formSubmit = async e => {
 		e.preventDefault();
 
-		if (value) {
-			if (value.startsWith(">")) {
-				const command = value.replace(">", "");
-				if (!command.length);
-				exec(command);
-			} else if (data.results) {
-				const result = data.results[selection];
-				if (result) await doResult(result);
-			}
+		if (data.results) {
+			const result = data.results[selection];
+			if (result) await doResult(result);
 		}
 
 		win.close();
@@ -160,7 +147,6 @@ export default () => {
 		<Twemoji>
 			<form onSubmit={formSubmit}>
 				<input
-					className={value.startsWith(">") ? "terminal" : ""}
 					onChange={e => formInput(e.target.value.trim())}
 					placeholder="What's up?"
 					autoFocus
