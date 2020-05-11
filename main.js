@@ -6,6 +6,8 @@ const fs = require("fs");
 global.apiUrl = "https://pulsar.alles.cx/pulsar/api";
 global.clientCredentialsPath = `${app.getPath("userData")}/client.json`;
 
+const allowedCorsOrigins = ["https://alles.cx", "http://localhost:3000"];
+
 //Prevent Multiple Instances
 if (!app.requestSingleInstanceLock()) {
 	console.log("Pulsar is already running!");
@@ -69,7 +71,13 @@ if (!isDev) autoLauncher.enable();
 const express = require("express");
 const httpServer = express();
 const cors = require("cors");
-httpServer.use(cors({origin: "https://alles.cx"}));
+httpServer.use(
+	cors((req, cb) => {
+		cb(null, {
+			origin: allowedCorsOrigins.includes(req.header("Origin"))
+		});
+	})
+);
 httpServer.get("/", (req, res) => res.sendFile(`${__dirname}/web.html`));
 httpServer.get("/token", (req, res) => res.send(remoteData.token));
 
