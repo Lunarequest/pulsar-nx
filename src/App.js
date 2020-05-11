@@ -23,13 +23,11 @@ const version = electron.remote.app.getVersion();
 var inputValue;
 
 export default () => {
-	const [value, setValue] = useState("");
 	const [data, setData] = useState({results: []});
 	const [selection, setSelection] = useState(0);
 
 	//Form Input
 	const formInput = val => {
-		setValue(val);
 		inputValue = val;
 		if (!val.trim()) return setData({});
 
