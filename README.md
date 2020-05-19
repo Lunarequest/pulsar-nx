@@ -1,2 +1,2 @@
 # Pulsar
-Pulsar is a utility made by Alles that acts somewhat similarly to spotlight search. It's built with React and Electron, and to use it, run ctrl+shift+a. It's not done yet.
+Pulsar is a utility made by Alles that acts somewhat similarly to spotlight search. It's built with React and Electron, and to use it, type alt+a. When you first run it, it will require you to open [the pulsar website](https://pulsar.alles.cx) to get a code, which it will use to connect the client to your AllesID.
