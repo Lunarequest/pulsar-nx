@@ -133,8 +133,10 @@ export default () => {
 		//Change Window Height
 		const h = document.querySelector("#root").getBoundingClientRect().height;
 		const w = win.getSize()[0];
-		win.setMinimumSize(w, h);
-		win.setSize(w, h);
+		try {
+			win.setMinimumSize(w, h);
+			win.setSize(w, h);
+		} catch (e) {}
 
 		//Reset Selection
 		if (data.results && data.results.length > 0 && !data.results[selection])
