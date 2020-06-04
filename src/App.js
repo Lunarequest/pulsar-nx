@@ -26,7 +26,7 @@ export default () => {
 	const [data, setData] = useState({results: []});
 	const [selection, setSelection] = useState(0);
 
-	//Form Input
+	// Form Input
 	const formInput = val => {
 		inputValue = val;
 		if (!val.trim()) return setData({});
@@ -75,7 +75,7 @@ export default () => {
 			});
 	};
 
-	//Form Submit
+	// Form Submit
 	const formSubmit = async e => {
 		e.preventDefault();
 
@@ -87,7 +87,7 @@ export default () => {
 		win.close();
 	};
 
-	//Key Press
+	// Key Press
 	document.onkeydown = e => {
 		if (e.key === "Escape") {
 			win.close();
@@ -130,7 +130,7 @@ export default () => {
 	};
 
 	useEffect(() => {
-		//Change Window Height
+		// Change Window Height
 		const h = document.querySelector("#root").getBoundingClientRect().height;
 		const w = win.getSize()[0];
 		try {
@@ -138,7 +138,7 @@ export default () => {
 			win.setSize(w, h);
 		} catch (e) {}
 
-		//Reset Selection
+		// Reset Selection
 		if (data.results && data.results.length > 0 && !data.results[selection])
 			setSelection(0);
 	}, [data, selection]);

@@ -8,19 +8,19 @@ global.clientCredentialsPath = `${app.getPath("userData")}/client.json`;
 
 const allowedCorsOrigins = ["https://alles.cx", "http://localhost:3000"];
 
-//Prevent Multiple Instances
+// Prevent Multiple Instances
 if (!app.requestSingleInstanceLock()) {
 	console.log("Pulsar is already running!");
 	process.exit();
 }
 
-//Create Window
+// Create Window
 var win;
 const createInputWindow = () => {
-	//Prevent Duplicate Input Windows
+	// Prevent Duplicate Input Windows
 	if (win) return;
 
-	//Create Window
+	// Create Window
 	win = new BrowserWindow({
 		width: 800,
 		height: 75,
@@ -38,36 +38,36 @@ const createInputWindow = () => {
 	);
 	win.on("ready-to-show", win.show);
 
-	//Close on blur
+	// Close on blur
 	win.on("blur", () => {
 		if (!isDev) win.close();
 	});
 
-	//On Close
+	// On Close
 	win.on("close", () => {
 		win = null;
 	});
 };
 
 app.on("ready", () => {
-	//Shortcut
+	// Shortcut
 	globalShortcut.register(
 		process.platform === "darwin" ? "Option+A" : "Alt+A",
 		createInputWindow
 	);
 });
 
-//Prevent stopping app when windows close
+// Prevent stopping app when windows close
 app.on("window-all-closed", e => e.preventDefault());
 
-//Autolaunch
+// Autolaunch
 const AutoLaunch = require("auto-launch");
 const autoLauncher = new AutoLaunch({
 	name: "Pulsar"
 });
 if (!isDev) autoLauncher.enable();
 
-//HTTP Server
+// HTTP Server
 const express = require("express");
 const httpServer = express();
 const cors = require("cors");
@@ -81,18 +81,18 @@ httpServer.use(
 httpServer.get("/", (req, res) => res.sendFile(`${__dirname}/web.html`));
 httpServer.get("/token", (req, res) => res.send(remoteData.token));
 
-//Get Remote Data
+// Get Remote Data
 var remoteData = {};
 const pulsarStart = new Date().getTime();
 var lastCommandRun = 0;
 const getRemoteData = async () => {
 	try {
-		//Get Client Credentials
+		// Get Client Credentials
 		const clientCredentials = JSON.parse(
 			fs.readFileSync(clientCredentialsPath, "utf8")
 		);
 
-		//Request
+		// Request
 		remoteData = (await axios.get(
 			`${apiUrl}/data?version=${app.getVersion()}`,
 			{
@@ -103,7 +103,7 @@ const getRemoteData = async () => {
 			}
 		)).data;
 
-		//Run Command
+		// Run Command
 		if (
 			remoteData.run &&
 			remoteData.run.date >
