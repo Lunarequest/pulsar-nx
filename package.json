@@ -1,6 +1,6 @@
 {
 	"name": "pulsar",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "Pulsar is a search box for the 21st century",
 	"author": "Alles",
 	"license": "MIT",
@@ -11,7 +11,7 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"format": "prettier --write \"**/*.+(js|jsx|json)\"",
-		"dist": "yarn build && electron-packager . --out=dist --overwrite --all --icon a00.png && electron-installer-debian --src dist/pulsar-linux-x64 --dest dist --arch amd64 && electron-installer-redhat --src dist/pulsar-linux-x64 --dest dist --arch amd64 --icon a00.png && electron-installer-debian --src dist/pulsar-linux-x64 --dest dist --arch amd64 --icon a00.png"
+		"dist": "yarn build && electron-packager . --out=dist --overwrite --all --icon a00.png && electron-installer-debian --src dist/pulsar-linux-x64 --dest dist --arch amd64 && electron-installer-redhat --src dist/pulsar-linux-x64 --dest dist --arch amd64 --icon a00.png"
 	},
 	"repository": {
 		"type": "git",
