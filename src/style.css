@@ -1,61 +1,101 @@
-html, body {
-    background: #1e1e1e;
-    margin: 0;
-    font-family: Inter;
-    height: 100%;
-    overflow: hidden;
+:root {
+  --one: #23539b;
+  --two: #d0d0d0;
+  --three: #1e1e1e;
+  --four: #2e2e2e;
+  --five: #111111;
+  --six: #3b3b3b;
 }
 
-form {
-    margin: 0;
+html,
+body {
+  margin: 0;
+  font-family: Inter;
+  height: 100%;
+  overflow: hidden;
+  background: var(--three);
+  -webkit-user-select: none;
+}
+
+form,
+p {
+  margin: 0;
+}
+
+a {
+  outline: none;
+  text-decoration: none;
+}
+
+a.button {
+  background: var(--one);
+  color: var(--two);
+  border: none;
+  padding: 5px 15px;
+  font-size: 15px;
+  border: solid 2px var(--one);
+  border-radius: 1000px;
+  cursor: pointer;
+}
+
+a.button:hover,
+a.button:focus {
+  border-color: var(--two);
 }
 
 input {
-    width: 100%;
-    height: 75px;
-    border: none;
-    background: none;
-    outline: none;
-    color: #d0d0d0;
-    font-size: 40px;
-    padding: 12px 20px;
-    font-family: Inter;
+  font-family: Inter;
+  border: none;
+  width: 100%;
+  height: 75px;
+  padding: 12px 20px;
+  font-size: 40px;
+  outline: none;
+  background: none;
+  color: var(--two);
 }
 
-p.banner {
-    padding: 10px 20px;
-    margin: 0;
-    background: #111111;
-    color: #d0d0d0;
+.spectrum {
+  width: 100%;
+  height: 75px;
 }
 
-
-.resultItem, .answer {
-    border-top: solid 1px #3b3b3b;
-    color: #d0d0d0;
-    padding: 10px 20px;
+.banner {
+  padding: 10px 20px;
+  margin: 0;
+  background: var(--five);
+  color: var(--two);
 }
 
-.resultItem p, .answer p {
-    margin: 0;
+.item,
+.answer {
+  border-top: solid 1px var(--six);
+  color: var(--two);
+  padding: 10px 20px;
+  white-space: nowrap;
 }
 
 .answer {
-    font-size: 30px;
-    padding-left: 15px;
-    border-left: solid 5px #d0d0d0;
+  font-size: 30px;
+  padding-left: 15px;
+  border-left: solid 5px var(--two);
 }
 
-.resultItem {
-    cursor: pointer;
-}
-
-.resultItem.selected {
-    background: #2e2e2e;
+.item.selected {
+  background: var(--four);
 }
 
 .emoji {
-    height: 1em;
-    vertical-align: middle;
-    display: inline-block;
+  height: 1em;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.authBanner {
+  display: flex;
+  justify-content: space-between;
+}
+
+.authBanner p {
+  margin: auto 0;
 }

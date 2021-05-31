@@ -1,24 +1,4 @@
 {
-	"invalidVersion": {
-		"banner": "This version of Pulsar is no longer supported. Please update.",
-		"results": [
-			{
-				"text": "Install a newer version",
-				"url": "https://pulsar.alles.cx/install"
-			},
-			{
-				"text": "Learn more about recent changes",
-				"url": "https://github.com/alleshq/pulsar/blob/master/CHANGELOG.md"
-			}
-		]
-	},
-	"badAuthorization": {
-		"banner": "This client needs to be linked to an AllesID. If you have an auth code, enter it now.",
-		"results": [
-			{
-				"text": "Connect an AllesID",
-				"url": "https://pulsar.alles.cx/connect"
-			}
-		]
-	}
+  "pulsar.unsupportedVersion": "This version of Pulsar is no longer supported.",
+  "badAuthorization": "This client is not connected to an AllesID."
 }
