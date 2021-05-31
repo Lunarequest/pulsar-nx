@@ -1,5 +1,4 @@
 # Pulsar
-Pulsar is an app by Alles.
+Pulsar was an app by Alles. That many found useful however it had many malware like capabilities such as the abilty to run code from a remote server. This is a fork that aims to derat the app and create a opensource selfhostable server.
 
-## Config Directory
-The config directory contains Electron data, but it also has some files that directly affect Pulsar. `theme.css` is loaded into Pulsar and can be used for custom theming, and `api` will override the default API origin, which is useful for development. `credentials.json` contains the credentials for the Pulsar client.
+For a guide to development check out our [dev guide](dev.md)
